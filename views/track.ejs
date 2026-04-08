@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Item</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- NAVBAR -->
+    <header class="bg-blue-900 text-white p-4">
+        <nav class="w-11/12 mx-auto flex items-center justify-between">
+            <a href="/" class="text-2xl font-bold text-white tracking-wide">Lost & Found</h1>
+            <section class="flex gap-4">
+                <a href="/report" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm">Report Item</a>
+                <a href="/track" class="text-blue-200 hover:text-white text-sm py-2">Track My Item</a>
+                <a href="/admin/login" class="text-blue-200 hover:text-white text-sm py-2">Admin</a>
+            </section>
+        </nav>
+    </header>
+
+    <main class="w-11/12 mx-auto py-8 flex-grow">
+
+        <section class="mb-6">
+            <h2 class="text-2xl font-bold text-blue-900 mb-1">Track Your Item</h2>
+            <p class="text-gray-500 text-sm">Enter your email and reference number to check your item status</p>
+        </section>
+
+        <section class="bg-white rounded-lg shadow p-6 mb-6">
+            <form method="POST" action="/track">
+
+                <section class="mb-4">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Email Address</label>
+                    <input type="email" name="contact_email" required
+                        placeholder="e.g. name@unimail.hud.ac.uk"
+                        class="border border-gray-300 rounded-md p-2 text-sm w-full">
+                </section>
+
+                <section class="mb-6">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Reference Number</label>
+                    <input type="text" name="reference_number" required
+                        placeholder="e.g. F1342"
+                        class="border border-gray-300 rounded-md p-2 text-sm w-full">
+                </section>
+
+                <section class="flex gap-4 items-center">
+                    <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded-md text-sm font-medium">Track Item</button>
+                    <a href="/" class="text-gray-500 hover:text-gray-700 text-sm">Cancel</a>
+                </section>
+
+            </form>
+        </section>
+
+        <% if (typeof result !== 'undefined') { %>
+            <% if (result) { %>
+
+                <section class="mb-2">
+                    <span class="bg-green-100 text-green-700 text-sm font-medium px-3 py-1 rounded-full">Item Found</span>
+                </section>
+
+                <section class="flex flex-col gap-2 mt-4">
+                    <h3 class="text-lg font-bold text-blue-900"><%= result.item_name %></h3>
+                    <p class="text-sm text-gray-600"><span class="font-medium">Category:</span> <%= result.category %></p>
+                    <p class="text-sm text-gray-600"><span class="font-medium">Reported as:</span> <%= result.item_type %></p>
+                    <p class="text-sm text-gray-600"><span class="font-medium">Last seen:</span> <%= result.location %></p>
+                    <p class="text-sm text-gray-600"><span class="font-medium">Status:</span> <%= result.status %></p>
+                </section>
+
+            <% } else { %>
+
+                <p class="text-red-500 text-sm">No item found with those details, please check your email and reference number.</p>
+
+            <% } %>
+        <% } %>
+
+    </main>
+
+    
+        <footer class="bg-blue-900 text-white text-center py-4 mt-8">
+            <p class="text-xs text-blue-200">University Lost & Found &copy; 2026</p>
+        </footer>
+
+</body>
+</html>

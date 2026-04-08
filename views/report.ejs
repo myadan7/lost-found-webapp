@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Item</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+
+    <header class="bg-blue-900 text-white p-4">
+        <nav class="w-11/12 mx-auto flex items-center justify-between">
+            <a href="/" class="text-2xl font-bold text-white tracking-wide">Lost & Found</h1>
+            <section class="flex gap-4">
+                <a href="/report" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm">Report Item</a>
+                <a href="/track" class="text-blue-200 hover:text-white text-sm py-2">Track My Item</a>
+                <a href="/admin/login" class="text-blue-200 hover:text-white text-sm py-2">Admin</a>
+            </section>
+        </nav>
+    </header>
+
+
+    <main class="w-11/12 mx-auto py-8 flex-grow">
+
+        <section class="mb-6">
+            <h2 class="text-2xl font-bold text-blue-900 mb-1">Report an Item</h2>
+            <p class="text-gray-500 text-sm">Fill in the details below to report a lost or found item</p>
+        </section>
+
+
+        <section class="bg-white rounded-lg shadow p-6">
+            <form action="/report" method="POST">
+
+
+                    <section class="mb-4">
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Item Type</label>
+                        <select name="item_type" required aria-label="Item type" class="border border-gray-300 rounded-md p-2 text-sm w-full">
+                            <option value="">Select...</option>
+                            <option value="lost" <%= formData && formData.item_type ==='lost' ? 'selected' : '' %>>Lost Item</option>
+                            <option value="found" <%= formData && formData.item_type ==='found' ? 'selected' : '' %>>Found Item</option>
+                        </select>
+                    </section>
+
+
+                <section class="mb-4">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Item Name</label>
+                    <input type="text" name="item_name" required aria-label="Item name"
+                    value="<%= formData ? formData.item_name : '' %>"
+                    class="border border-gray-300 rounded-md p-2 text-sm w-full">
+                </section>
+
+
+                <section class="mb-4">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Description</label>
+                    <textarea name="description" rows="4" required aria-label="Item description"
+                        class="border border-gray-300 rounded-md p-2 text-sm w-full"><%= formData ? formData.description : ''%></textarea>
+                </section>
+
+  
+                <section class="mb-4">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Category</label>
+                    <select name="category" required aria-label="Item description" class="border border-gray-300 rounded-md p-2 text-sm w-full">
+                        <option value="">Select...</option>
+                        <option value="electronics" <%= formData && formData.category === 'electronics' ? 'selected' : '' %>>Electronics</option>
+                        <option value="clothing" <%= formData && formData.category === 'clothing' ? 'selected' : '' %>>Clothing</option>
+                        <option value="bag" <%= formData && formData.category === 'bag' ? 'selected' : '' %>>Bag / Bagpack</option>
+                        <option value="keys" <%= formData && formData.category === 'keys' ? 'selected' : '' %>>Keys</option>
+                        <option value="wallet" <%= formData && formData.category === 'wallet' ? 'selected' : '' %>>Wallet</option>
+                        <option value="books" <%= formData && formData.category === 'books' ? 'selected' : '' %>>Books / Stationery</option>
+                        <option value="other" <%= formData && formData.category === 'other' ? 'selected' : '' %>>Other</option>
+                    </select>
+                </section>
+
+
+                <section class="mb-4">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Location (where lost/found)</label>
+                    <input type="text" name="location" required aria-label="Location where item was lost or found"
+                    value ="<%= formData ? formData.location : '' %>"
+                    class="border border-gray-300 rounded-md p-2 text-sm w-full">
+                </section>
+
+
+                <section class="mb-4">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Your Email</label>
+                    <input type="email" name="contact_email" required aria-label="Input your email address"
+                        placeholder="e.g name@unimail.hud.ac.uk"
+                        class="border border-gray-300 rounded-md p-2 text-sm w-full">
+                    
+                    
+                    
+                        <% if (error) { %>
+                        <p class="text-red-500 text-sm mt-1"><%= error %></p>
+                    <% } %>
+                </section>
+
+
+                <section class="mb-6">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Terms & Conditions</label>
+                    <div class="border border-gray-300 rounded-md p-4 text-sm text-gray-600">
+                        <p class="font-medium mb-2">Please read before submitting:</p>
+                        <ul class="list-disc pl-4 flex flex-col gap-1">
+                            <li>Do not include photos or details of personal ID, passports, bank cards or any sensitive documents.</li>
+                            <li>In accordance with GDPR guidelines, your personal data will not be stored longer than required.</li>
+                            <li>Your email is only used to follow this report, it is not shared or used for any unauthorised activity.</li>
+                            <li>You may be asked to verify ownership via a security question before the item is returned to you.</li>
+                            <li>If you have found this item, please hand it into your nearest office / reception on campus as soon as possible.</li>
+
+                        </ul>
+                    </div>
+                    <label class="flex items-center gap-2 mt-3 text-sm text-gray-700">
+                        <input type="checkbox" name="terms_agreed" required aria-label="Agree to the terms and conditions to proceed"> 
+                        I have read and agree to the terms and conditions
+                    </label>
+                </section>
+
+
+                <section class="flex gap-4 items-center">
+                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md text-sm font-medium">Submit Report</button>
+                    <a href="/" class="text-gray-500 hover:text-gray-700 text-sm">Cancel</a>
+                </section>
+
+                </form>
+        </section>
+
+        </main>
+
+
+    
+    
+        <footer class="bg-blue-900 text-white text-center py-4 mt-8">
+        <p class="text-xs text-blue-200">University Lost & Found &copy; 2026</p>
+    </footer>
+
+</body>
+</html>
