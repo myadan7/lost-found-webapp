@@ -455,10 +455,11 @@ app.listen(port, () => {
 
 // Database connection
 const db = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password: process.env.db_password,
-    database:'lost_found_app'
+    host: process.env.mysqlhost || 'localhost',
+    user: process.env.mysqluser || 'root',
+    password: process.env.mysqlpassword || process.env.db_password,
+    database: process.env.mysqlport ||'lost_found_app',
+    port: process.env.mysqlport || 3306
 });
 
 // Connection established via
