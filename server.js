@@ -23,7 +23,7 @@ app.set('view engine','ejs');
 app.use(express.urlencoded({extended:true}));
 //Session intialisation
 app.use(session({
-    secret: process.env.session_secret,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {maxAge: 3600000}
@@ -455,11 +455,11 @@ app.listen(port, () => {
 
 // Database connection
 const db = mysql.createConnection({
-    host: process.env.mysqlhost || 'localhost',
-    user: process.env.mysqluser || 'root',
-    password: process.env.mysqlpassword || process.env.db_password,
-    database: process.env.mysqlport ||'lost_found_app',
-    port: process.env.mysqlport || 3306
+    host: process.env.MYSQLHOST || 'localhost',
+    user: process.env.MYSQLUSER  || 'root',
+    password: process.env.MYSQLPASSWORD  || process.env.db_password,
+    database: process.env.MYSQLDATABASE  ||'lost_found_app',
+    port: process.env.MYSQLPORT || 3306
 });
 
 // Connection established via
