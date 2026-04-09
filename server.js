@@ -456,19 +456,12 @@ app.listen(port, () => {
 })
 
 // Database connection
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: process.env.MYSQLHOST || 'localhost',
-    user: process.env.MYSQLUSER  || 'root',
-    password: process.env.MYSQLPASSWORD  || process.env.db_password,
-    database: process.env.MYSQLDATABASE  ||'lost_found_app',
-    port: process.env.MYSQLPORT || 3306
-});
-
-// Connection established via
-db.connect((err) => {
-    if (err) {
-        console.error('Database connection has failed:', err);
-        return;
-    }
-    console.log('Successfully connected to MySQL database!');
+    user: process.env.MYSQLUSER || 'root',
+    password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD,
+    database: process.env.MYSQLDATABASE || 'lost_found_app',
+    port: process.env.MYSQLPORT || 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
 });
