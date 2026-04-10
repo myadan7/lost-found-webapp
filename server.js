@@ -22,7 +22,7 @@ const emailSetup= nodemailer.createTransport({
 // Ejs template
 app.set('view engine','ejs');
 //Middleware that parses form data
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:true}));same
 //Session intialisation
 app.use(session({
     secret: process.env.SESSION_SECRET,
