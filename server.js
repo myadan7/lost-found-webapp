@@ -11,16 +11,8 @@ const session = require ('express-session');
 // Cron job initialisation
 const cron = require('node-cron');
 // Email notifications
-const nodemailer = require('nodemailer');
-const emailSetup= nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    }
-});
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Ejs template
 app.set('view engine','ejs');
@@ -152,16 +144,16 @@ app.post('/report',(req,res) => {
     };
 
 
-    emailSetup.sendMail(confirmationEmail, (err,info)=> {
-        if (err) {
-            console.error('Error sending email:',err);
-        
-        }
-        else {
+     resend.emails.send({
+            from: 'noreply@campuslostandfound.site',
+            to: contact_email,
+            subject: 'Lost & Found - Report Submitted',
+            text: confirmationEmail.text
+        }).then(() => {
             console.log('Confirmation email sent to:' + contact_email);
-
-        }
-    });
+        }).catch((err) => {
+            console.error('Error sending email:', err);
+        });
     
     
     res.redirect(`/confirmation?ref=${refNumber}`);
@@ -331,17 +323,21 @@ app.post('/admin/update-status', isAdmin, (req, res) => {
 
                     };
 
-                emailSetup.sendMail(returnEmail, (err, info) => {
-                    if (err) {
-                        console.error('Error sending return email:', err);
-                    } else {
-                        console.log('Return email sent to:' + reporterEmail);
-                    }
-                });
+        resend.emails.send({
+            from: 'noreply@campuslostandfound.site',
+            to: reporterEmail,
+            subject: 'Lost & Found - Item Returned',
+            text: returnEmail.text
+            
+            }).then(() => {
+            console.log('Return email sent to:' + reporterEmail);
+            }).catch((err) => {
+            console.error('Error sending return email:', err);
+        });
+
             }
         });
     }
-
         res.redirect('/admin/dashboard');
     });
 });    
