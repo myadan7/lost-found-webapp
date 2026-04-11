@@ -291,7 +291,7 @@ app.post('/admin/update-status', isAdmin, (req, res) => {
         console.log(`Item ${item_id} status changed to ${status}`);
 
         // Email is sent to the reported updating the user the item has been returned
-        if (status === 'returned') {
+        if (status === 'claimed' || status === 'returned') {
             const getEmail = 'SELECT contact_email, item_name, item_type FROM items WHERE id = ?';
             db.query(getEmail, [item_id], (err, rows) => {
                 if (err) {
@@ -302,42 +302,54 @@ app.post('/admin/update-status', isAdmin, (req, res) => {
                     const item_name = rows[0].item_name;
                     const item_type = rows[0].item_type;
 
-                    const returnEmail = {
-                        from: 'personaltesting7861@gmail.com',
+                    // This line ensures the lost reporter is only emailed when the item is claimed and returned
+                    const shouldEmail = (status === 'claimed' && item_type === 'lost') || status === 'returned';
+
+                    if (shouldEmail) {
+                        let emailText;
+
+                    if (status === 'claimed' && item_type === 'lost') {
+                    emailText = `Hello,\n\n` +
+                        `Great news! An item matching your description has been handed in.\n\n` +
+                        `Item: ${item_name}\n\n` +
+                        `Please visit the Harold Wilson building to verify ownership.\n\n` +
+                        `Remember to bring your reference number with you.\n\n` +
+                        `Kind regards,\n` +
+                        `University of Huddersfield Lost & Found Team`;
+                    }   
+                    else if (status === 'returned' && item_type === 'lost') {
+                    emailText = `Hello,\n\n` +
+                        `Your item has been successfully returned to you!\n\n` +
+                        `Item: ${item_name}\n\n` +
+                        `Thank you for your patience throughout this process, we really appreciate it.\n\n` +
+                        `We hope our service helped!\n\n` +
+                        `Kind regards,\n` +
+                        `University of Huddersfield Lost & Found Team`;
+                    }   
+                    else if (status === 'returned' && item_type === 'found') {
+                    emailText = `Hello,\n\n` +
+                        `Great news! The item you found has been returned to its owner.\n\n` +
+                        `Item: ${item_name}\n\n` +
+                        `Thank you very much for your contribution, it is greatly appreciated.\n\n` +
+                        `Kind regards,\n` +
+                        `University of Huddersfield Lost & Found Team`;
+
+                    }
+
+                    resend.emails.send({
+                        from: 'noreply@campuslostandfound.site',
                         to: reporterEmail,
-                        subject:'Lost & Found - Item Returned',
-                        text: `Hello,\n\n` +
-                        (item_type === 'lost'
-                            ?
-                            `Great news! We have received your item and it is ready for collection.\n\n` +
-                            `Item: ${item_name}\n\n` +
-                            `Please visit the Harold Wilson building to collect your item.\n\n` +
-                            `Remember to bring your reference number with you to verify ownership\n\n` +
-                            `Thank you for your patience throughout this process, we really appreciate it!\n\n`
-                            : `Great news! The item you found has been returned to it's owner!\n\n` +
-                            `Item: ${item_name}\n\n` +
-                            `The item you handed in has been successfully returned to it's righful owner.\n\n` +
-                            `Thank you very much for your contribution, it is greatly appreciated.\n\n`) +
-                            `Kind regards,\n` +
-                            `University of Huddersfield Lost & Found Team`
-
-                    };
-
-        resend.emails.send({
-            from: 'noreply@campuslostandfound.site',
-            to: reporterEmail,
-            subject: 'Lost & Found - Item Returned',
-            text: returnEmail.text
-            
-            }).then(() => {
-            console.log('Return email sent to:' + reporterEmail);
-            }).catch((err) => {
-            console.error('Error sending return email:', err);
-        });
-
-            }
-        });
-    }
+                        subject: 'Lost & Found - Item Update',
+                        text: emailText
+                    }).then(() => {
+                        console.log(`Email sent to ${reporterEmail} for status: ${status}`);
+                    }).catch((err) => {
+                        console.error('Error sending return email:', err);
+                    });
+                    }
+                }
+            });
+        }
         res.redirect('/admin/dashboard');
     });
 });    
