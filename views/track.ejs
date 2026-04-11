@@ -56,7 +56,11 @@
             <% if (result) { %>
 
                 <section class="mb-2">
-                    <span class="bg-green-100 text-green-700 text-sm font-medium px-3 py-1 rounded-full">Item Found</span>
+                    <% if (result.item_type === 'lost') { %>
+                        <span class="bg-red-100 text-red-700 text-sm font-medium px-3 py-1 rounded-full">Lost Item Report</span>
+                        <% } else { %>
+                            <span class="bg-green-100 text-green-700 text-sm font-medium px-3 py-1 rounded-full">Found Item Report</span>
+                        <% } %>
                 </section>
 
                 <section class="flex flex-col gap-2 mt-4">
