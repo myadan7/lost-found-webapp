@@ -90,7 +90,7 @@
                         <% items.forEach(item => { %>
                             <tr class="border-t border-gray-200 hover:bg-gray-50">
                                 <td class="px-4 py-3"><%= item.id %></td>
-                                <td class="px-4 py-3 font-medium"><%= item.item_name %></td>
+                                <td class="px-4 py-3 font-medium"><%= item.item_name.charAt(0).toUpperCase() + item.item_type.slice(1) %></td>
                                 <td class="px-4 py-3"><%= item.item_type.charAt(0).toUpperCase() + item.item_type.slice(1) %></td>
                                 <td class="px-4 py-3"><%= item.category.charAt(0).toUpperCase() + item.category.slice(1) %></td>
                                 <td class="px-4 py-3"><%= item.description %></td>
