@@ -91,8 +91,8 @@
                             <tr class="border-t border-gray-200 hover:bg-gray-50">
                                 <td class="px-4 py-3"><%= item.id %></td>
                                 <td class="px-4 py-3 font-medium"><%= item.item_name %></td>
-                                <td class="px-4 py-3"><%= item.item_type %></td>
-                                <td class="px-4 py-3"><%= item.category %></td>
+                                <td class="px-4 py-3"><%= item.charAt(0).toUpperCase() + item.item_type.slice(1) %></td>
+                                <td class="px-4 py-3"><%= item.category.charAt(0).toUpperCase() + item.category.slice(1) %></td>
                                 <td class="px-4 py-3"><%= item.description %></td>
                                 <td class="px-4 py-3"><%= item.location %></td>
                                 <td class="px-4 py-3"><%= item.contact_email %></td>
@@ -111,7 +111,7 @@
                                         <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Returned</span>
                                     <% } %>
                                 </td>
-                                <td class="px-4 py-3"><%= new Date(item.created_at).toLocaleDateString() %></td>
+                                <td class="px-4 py-3"><%= new Date(item.created_at).toLocaleDateString('en-GB') %></td>
                                 <td class="px-4 py-3">
                                     <form action="/admin/update-status" method="POST">
                                         <input type="hidden" name="item_id" value="<%= item.id %>">
