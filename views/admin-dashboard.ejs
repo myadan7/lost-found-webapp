@@ -13,8 +13,9 @@
             <a href="/admin/dashboard" class="text-2xl font-bold text-white tracking-wide">Lost & Found</h1>
             <section class="flex gap-4 items-center">
                 <span class="text-blue-200 text-sm">Welcome, <%= username %></span>
-                <a href="/admin/logout" class="bg-blue-600 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm">Logout</a>
-                <a href="/admin/stats" class="text-blue-200 hover:text-white text-sm py-2">Stats</a>
+                <a href="/admin/logout" class="text-blue-200 hover:text-white text-sm py-2">Logout</a>
+                <a href="/admin/stats" class="<%= currentPage === 'stats' ? 'bg-blue-600 text-white px-4 py-2 rounded-md' : 'text-blue-200 hover:text-white py-2' %> text-sm">Stats</a>
+                <a href="/admin/dashboard" class="<%= currentPage === 'dashboard' ? 'bg-blue-600 text-white px-4 py-2 rounded-md' : 'text-blue-200 hover:text-white py-2' %> text-sm">Dashboard</a>
             </section>
         </nav>
     </header>
