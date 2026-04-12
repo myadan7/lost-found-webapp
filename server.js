@@ -221,7 +221,7 @@ app.post('/admin/login',(req, res) => {
                 return res.status(500).send('Error logging in');
             }
             if (!isMatch){
-                return res.render('admin-login', {error:'Invalid Username or Password'});
+                return res.render('admin-login', {error:'Invalid Username or Password', currentPage:'admin'});
             }
             // Checks password matches and session is created
             req.session.isAdmin = true;
@@ -429,7 +429,7 @@ app.get('/admin/stats', isAdmin,(req,res) => {
                         if (err) { console.error('Stats error:', err); return res.status(500).send('Error loading stats'); }
 
                         res.render('admin-stats', {
-                            currentPage:'dashboard',
+                            currentPage:'stats',
                             monthly: monthlyResult[0].total,
                             topCategory: categoryResult[0] ? categoryResult[0].category : 'N/A',
                             topLocation: locationResult[0] ? locationResult[0].location : 'N/A',
