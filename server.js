@@ -136,7 +136,8 @@ app.post('/report',(req,res) => {
         (item_type === 'found'
             ? `Next steps:\n` +
             `Since you have found this item, please hand it into your nearest office / reception on campus as soon as possible.\n\n` +
-            `Our team will will now work on returning the item to it's rightful owner.\n\n` +
+            `If your interested you can track the item status at any time using your reference number on the website.\n\n` +
+            `Our team will will now work on returning the item to it's rightful owner. We will keep you updated about the item on this email.\n\n` +
             `Thank you for your contribution, it is greatly appreciated!\n\n` 
             : `Next steps:\n` +
             `We have logged your report and will keep you updated on this email address if anything matching your description is handed in.\n\n` +
