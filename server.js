@@ -121,7 +121,7 @@ app.post('/report',(req,res) => {
     }
     console.log('Item saved successfully! ID:', result.insertId);
     
-    // Confirmnation email is sent to the user once they submit a report
+    // Confirmation email is sent to the user once they submit a report
     console.log('Sending email to:', contact_email);
     const confirmationEmail = {
         from:'personaltesting7861@gmail.com',
@@ -130,6 +130,7 @@ app.post('/report',(req,res) => {
         text:`Hello,\n\n` + 
         `Your report has been submitted successfully.\n\n` +
         `Item: ${item_name}\n` +
+        `Reference Number: ${refNumber}\n\n` +
         (item_type === 'found'
             ? `Next steps:\n` +
             `Since you have found this item, please hand it into your nearest office / reception on campus as soon as possible.\n\n` +
@@ -292,7 +293,7 @@ app.post('/admin/update-status', isAdmin, (req, res) => {
 
         // Email is sent to the reported updating the user the item has been returned
         if (status === 'claimed' || status === 'returned') {
-            const getEmail = 'SELECT contact_email, item_name, item_type FROM items WHERE id = ?';
+            const getEmail = 'SELECT contact_email, item_name, item_type, reference_number FROM items WHERE id = ?';
             db.query(getEmail, [item_id], (err, rows) => {
                 if (err) {
                     console.error('Error fetching item details:',err);
@@ -301,6 +302,7 @@ app.post('/admin/update-status', isAdmin, (req, res) => {
                     const reporterEmail = rows[0].contact_email;
                     const item_name = rows[0].item_name;
                     const item_type = rows[0].item_type;
+                    const reference_number = rows[0].reference_number;
 
                     // This line ensures the lost reporter is only emailed when the item is claimed and returned
                     const shouldEmail = (status === 'claimed' && item_type === 'lost') || status === 'returned';
@@ -312,6 +314,7 @@ app.post('/admin/update-status', isAdmin, (req, res) => {
                     emailText = `Hello,\n\n` +
                         `Great news! An item matching your description has been handed in.\n\n` +
                         `Item: ${item_name}\n\n` +
+                        `Reference Number: ${reference_number}\n\n` +
                         `Please visit the Harold Wilson building to verify ownership.\n\n` +
                         `Remember to bring your reference number with you.\n\n` +
                         `Kind regards,\n` +
