@@ -12,9 +12,9 @@
         <nav class="w-11/12 mx-auto flex items-center justify-between">
             <a href="/" class="text-2xl font-bold text-white tracking-wide">Lost & Found</h1>
             <section class="flex gap-4">
-                <a href="/" class="text-blue-200 hover:text-white text-sm py-2">Reported Items</a>
-                <a href="/report" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm">Report Item</a>
-                <a href="/track" class="text-blue-200 hover:text-white text-sm py-2">Track My Item</a>
+                <a href="/" class="<%= currentPage === 'home' ? 'text-white font-semibold' : 'text-blue-200 hover:text-white' %> text-sm py-2">Reported Items</a>
+                <a href="/report" class="<%= currentPage === 'report' ? 'bg-blue-500 text-white' : 'bg-blue-600 hover:bg-blue-500 text-white' %> px-4 py-2 rounded-md text-sm">Report Item</a>
+                <a href="/track" class="<%= currentPage === 'track' ? 'text-white font-semibold' : 'text-blue-200 hover:text-white' %> text-sm py-2">Track My Item</a>
                 <a href="/admin/login" class="text-blue-200 hover:text-white text-sm py-2">Admin</a>
             </section>
         </nav>

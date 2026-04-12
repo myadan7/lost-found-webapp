@@ -80,6 +80,7 @@ app.get('/',(req,res) => {
         }
         res.render('index', {
             items: results,
+            currentPage:'home',
             searchTerm: search || '',
             selectedCategory: category || '',
             selectedType: item_type || '',
@@ -92,7 +93,7 @@ app.get('/',(req,res) => {
 
 // Report form
 app.get('/report',(req, res) => {
-    res.render('report', {error: null, formData: null});
+    res.render('report', {error: null, formData: null, currentPage:'report'});
 });
 
 // Form submission
@@ -106,7 +107,8 @@ app.post('/report',(req,res) => {
     const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailFormat.test(contact_email)) {
         return res.render('report', {error: 'That email is invalid, please try again.',
-            formData: req.body
+            formData: req.body, 
+            currentPage:'report'
         });
     }
 
@@ -165,12 +167,12 @@ app.post('/report',(req,res) => {
 // Confirmation page displays after the report is successfully submitted
 app.get('/confirmation',(req,res)=> {
     const {ref} = req.query;
-    res.render('confirmation',{refNumber:ref});
+    res.render('confirmation',{refNumber:ref, currentPage: 'confirmation'});
 })
 
 // Item tracking page route
 app.get('/track',(req,res)=> {
-    res.render('track');
+    res.render('track', {currentPage: 'track'});
 });
     // Form submissiom
     app.post('/track',(req,res)=> {
@@ -183,7 +185,8 @@ app.get('/track',(req,res)=> {
             return res.status(500).send('Error retrieving item');
         }
         res.render('track', {
-            result: results.length > 0 ? results[0] : null
+            result: results.length > 0 ? results[0] : null, 
+            currentPage: 'track'
         });
 
     });
