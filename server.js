@@ -194,7 +194,7 @@ app.get('/track',(req,res)=> {
 
 // Admin login page
 app.get('/admin/login',(req, res) => {
-    res.render('admin-login', {error: null});
+    res.render('admin-login', {error: null, currentPage:'admin'});
 
 });
 
@@ -210,7 +210,7 @@ app.post('/admin/login',(req, res) => {
 
         // Admin check
         if (results.length === 0) {
-            return res.render('admin-login',{error: 'Invalid Username or Password'});
+            return res.render('admin-login',{error: 'Invalid Username or Password', currentPage:'admin'});
         }
         const admin = results[0];
 
