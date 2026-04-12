@@ -430,6 +430,7 @@ app.get('/admin/stats', isAdmin,(req,res) => {
 
                         res.render('admin-stats', {
                             currentPage:'stats',
+                            username:req.session.username,
                             monthly: monthlyResult[0].total,
                             topCategory: categoryResult[0] ? categoryResult[0].category : 'N/A',
                             topLocation: locationResult[0] ? locationResult[0].location : 'N/A',
