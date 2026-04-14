@@ -321,7 +321,7 @@ app.post('/admin/update-status', isAdmin, (req, res) => {
                         `Item: ${item_name}\n\n` +
                         `Reference Number: ${reference_number}\n\n` +
                         `Please visit the Harold Wilson building to verify ownership.\n\n` +
-                        `Remember to bring your reference number with you.\n\n` +
+                        `Remember to bring your reference number and Student ID with you.\n\n` +
                         `Kind regards,\n` +
                         `University of Huddersfield Lost & Found Team`;
                     }   
